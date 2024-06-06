@@ -59,8 +59,8 @@ func (e ErrJSONFieldNotExist) Error() string {
 	return strconv.Quote(string(e)) + " json field is not exist"
 }
 
-func NewEmptyFieldErr(f interface{}) ErrEmptyField {
-	fn := runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
+func NewEmptyFieldErr(field interface{}) ErrEmptyField {
+	fn := reflect.Indirect(reflect.ValueOf(field)).Type().Name()
 	return ErrEmptyField(fn)
 }
 
@@ -69,8 +69,8 @@ func NewEmptyInputErr(f interface{}) ErrEmptyInput {
 	return ErrEmptyInput(fn)
 }
 
-func NewEmptyOrInvalidFieldErr(f interface{}) ErrEmptyOrInvalidField {
-	fn := runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
+func NewEmptyOrInvalidFieldErr(field interface{}) ErrEmptyOrInvalidField {
+	fn := reflect.Indirect(reflect.ValueOf(field)).Type().Name()
 	return ErrEmptyOrInvalidField(fn)
 }
 
@@ -79,9 +79,8 @@ func NewEmptyOrInvalidInputErr(f interface{}) ErrEmptyOrInvalidInput {
 	return ErrEmptyOrInvalidInput(fn)
 }
 
-func NewFieldNotFoundErr(f interface{}) ErrFieldNotFound {
-	fn := runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
-	return ErrFieldNotFound(fn)
+func NewFieldNotFoundErr(s string) ErrFieldNotFound {
+	return ErrFieldNotFound(s)
 }
 
 func NewNullInputErr(f interface{}) ErrNullInput {
@@ -89,12 +88,19 @@ func NewNullInputErr(f interface{}) ErrNullInput {
 	return ErrNullInput(fn)
 }
 
-func NewNullStructErr(f interface{}) ErrNullStruct {
-	fn := runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
-	return ErrNullStruct(fn)
+func NewNullStructErr(s string) ErrNullStruct {
+	return ErrNullStruct(s)
 }
 
 func NewInvalidJSONErr(f interface{}) ErrInvalidJSON {
 	fn := runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
 	return ErrInvalidJSON(fn)
+}
+
+func NewInvalidJSONFieldValueErr(s string) ErrInvalidJSONFieldValue {
+	return ErrInvalidJSONFieldValue(s)
+}
+
+func NewJSONFieldNotExistErr(s string) ErrJSONFieldNotExist {
+	return ErrJSONFieldNotExist(s)
 }
